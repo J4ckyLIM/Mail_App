@@ -1,0 +1,19 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: example_app_db
+    ports:
+      - '5451:5432'
+  # Faut un bridge, pas value de le faire sauf si quelqu'un a vraiment envie
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/server/Dockerfile
+  #   ports:
+  #     - '3000:3000'
+  #   depends_on:
+  #     - postgres
