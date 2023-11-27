@@ -27,12 +27,6 @@ export class BaseService<T extends ObjectLiteral> {
     await this.repository.delete(id);
   }
 
-  async findOneById(id: UUIDv4): Promise<T | undefined> {
-    return this.repository.findOneBy({
-      id: id as FindOptionsWhereProperty<NonNullable<T[string]>>,
-    } as FindOptionsWhere<T>);
-  }
-
   async findAll(): Promise<T[]> {
     return this.repository.find();
   }
