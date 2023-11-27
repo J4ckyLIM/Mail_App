@@ -14,7 +14,7 @@ export class Message extends BaseEntity {
   @Column()
   title: string;
   
-  @Column({ type: 'longtext' })
+  @Column({ type: 'text' })
   content: string;
 
   @Column({ default: false })
