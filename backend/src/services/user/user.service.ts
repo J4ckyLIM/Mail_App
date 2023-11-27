@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { User, UserCreateArgs, UserUpdateArgs } from '../../domain/user/user.entity';
 import { BaseService } from '../base.service';
-import { UUIDv4 } from 'src/types';
+import { UUIDv4 } from '../../types';
 
 @Injectable()
 export class UserService extends BaseService<User> {
