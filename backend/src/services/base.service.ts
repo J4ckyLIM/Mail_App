@@ -18,7 +18,7 @@ export class BaseService<T extends ObjectLiteral> {
     return this.repository.save(props);
   }
 
-  async update(props: T): Promise<T> {
+  async update(id: UUIDv4,props: T): Promise<T> {
     const entity = this.repository.create(props);
     return this.repository.save(entity);
   }
@@ -35,5 +35,9 @@ export class BaseService<T extends ObjectLiteral> {
 
   async findAll(): Promise<T[]> {
     return this.repository.find();
+  }
+
+  async findOneBy(props: Partial<T>): Promise<T | undefined> {
+    return this.repository.findOneBy(props);
   }
 }
