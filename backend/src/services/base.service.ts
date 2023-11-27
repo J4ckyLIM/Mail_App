@@ -38,6 +38,6 @@ export class BaseService<T extends ObjectLiteral> {
   }
 
   async findOneBy(props: Partial<T>): Promise<T | undefined> {
-    return this.repository.findOneBy(props);
+    return this.repository.findOneBy(props as FindOptionsWhere<T>);
   }
 }
