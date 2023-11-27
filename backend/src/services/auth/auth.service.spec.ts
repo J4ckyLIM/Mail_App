@@ -66,4 +66,20 @@ describe('AuthService', () => {
       expect(result).toEqual({ access_token: accessToken });
     });
   });
+
+  describe('register', () => {
+    it('should create a user and return an access token', async () => {
+      const props = { email: 'new@example.com', password: 'password', name: 'New User' };
+      const user = userFactory(props);
+      const token = 'token'
+      const accessToken = { access_token: token };
+
+      jest.spyOn(userService, 'create').mockResolvedValue(user);
+      jest.spyOn(jwtService, 'signAsync').mockResolvedValue(token);
+
+      const result = await service.register(props);
+
+      expect(result).toEqual(accessToken);
+    })
+  })
 });
