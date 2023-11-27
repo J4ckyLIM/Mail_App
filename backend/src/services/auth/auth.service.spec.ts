@@ -30,11 +30,12 @@ describe('AuthService', () => {
     it('should return user if email and password are valid', async () => {
       const email = 'test@example.com';
       const password = 'password';
-      const user = userFactory({ email, password });
+      const props = { email, password };
+      const user = userFactory(props);
 
       jest.spyOn(userService, 'findOneBy').mockResolvedValue(user);
 
-      const result = await service.validateUser(email, password);
+      const result = await service.validateUser(props);
 
       expect(result).toEqual(user);
     });
@@ -42,11 +43,12 @@ describe('AuthService', () => {
     it('should return null if email or password is invalid', async () => {
       const email = 'test@example.com';
       const password = 'password';
+      const props = { email, password };
       const user = userFactory({ email, password: 'wrong_password' });
 
       jest.spyOn(userService, 'findOneBy').mockResolvedValue(user);
 
-      const result = await service.validateUser(email, password);
+      const result = await service.validateUser(props);
 
       expect(result).toBeNull();
     });
