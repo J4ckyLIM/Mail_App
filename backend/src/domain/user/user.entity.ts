@@ -8,6 +8,12 @@ export interface UserCreateArgs extends BaseEntityCreateArgs {
   password: string;
 }
 
+export interface UserUpdateArgs extends Omit<BaseEntityCreateArgs, 'id'> {
+  name?: string;
+  email?: string;
+  password?: string;
+}
+
 @Entity()
 export class User extends BaseEntity {
   @Column()
