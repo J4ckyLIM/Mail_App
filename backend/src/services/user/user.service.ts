@@ -23,7 +23,7 @@ export class UserService extends BaseService<User> {
     }
 
     const newUser = new User(props);
-    return super.create(newUser);
+    return super.insert(newUser);
   }
 
   async update(id: UUIDv4, props: UserUpdateArgs): Promise<User> {

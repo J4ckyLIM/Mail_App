@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 import { BaseEntity, BaseEntityCreateArgs } from '../base.entity';
+import { Message } from '../message/message.entity';
 
 export interface UserCreateArgs extends BaseEntityCreateArgs {
   name: string;
@@ -24,6 +25,12 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Message, (message) => message.writtenBy)
+  messagesWritten: Message[];
+
+  @OneToMany(() => Message, (message) => message.writtenTo)
+  messagesReceived: Message[];
 
   constructor(props: UserCreateArgs) {
     super(props);

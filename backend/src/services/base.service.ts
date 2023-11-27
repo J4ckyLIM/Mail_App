@@ -14,7 +14,7 @@ export class BaseService<T extends ObjectLiteral> {
     this.repository = repository;
   }
 
-  async create(props: T): Promise<T> {
+  async insert(props: T): Promise<T> {
     return this.repository.save(props);
   }
 
