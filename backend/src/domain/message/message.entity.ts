@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne } from "typeorm";
 import { BaseEntity, BaseEntityCreateArgs } from "../base.entity";
 import { User } from "../user/user.entity";
 
-interface MessageCreateArgs extends BaseEntityCreateArgs {
+export interface MessageCreateArgs extends BaseEntityCreateArgs {
   title: string;
   content: string;
   writtenBy: User;
