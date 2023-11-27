@@ -39,7 +39,7 @@ describe('AuthController (e2e)', () => {
 
   describe('/auth/login (POST)', () => {
     it('should return the user token on successful login', async () => {
-      const user = { username: 'testuser', password: 'testpassword' };
+      const user = { email: 'testuser@example.com', password: 'testpassword' };
       const token = { access_token: 'testtoken' };
 
       jest.spyOn(authService, 'login').mockResolvedValue(token);
@@ -51,5 +51,21 @@ describe('AuthController (e2e)', () => {
 
       expect(response.body).toEqual(token);
     });
+  });
+
+  describe('/auth/register (POST)', () => {
+    it('should return the user token on successful registration', async () => {
+      const payload = { name: 'testuser', email: 'testuser@example.com', password: 'testpassword' };
+      const token = { access_token: 'testtoken' };
+
+      jest.spyOn(authService, 'register').mockResolvedValue(token);
+
+      const response = await request(app.getHttpServer())
+        .post('/auth/register')
+        .send(payload)
+        .expect(HttpStatus.CREATED);
+
+      expect(response.body).toEqual(token);
+    })
   });
 });
