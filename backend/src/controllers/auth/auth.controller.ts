@@ -1,0 +1,28 @@
+import { Controller, HttpCode, HttpStatus, Post, UseGuards, Request, Bind, Body, BadRequestException } from '@nestjs/common';
+import { AuthService } from '../../services/auth/auth.service';
+import { LocalAuthGuard } from '../../guard/local-auth.guard';
+import { AccessTokenDTO, RegisterDTO } from '../../dtos/auth.dto';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(LocalAuthGuard)
+  @Post('login')
+  @Bind(Request())
+  async login(req: any): Promise<AccessTokenDTO> {
+    return this.authService.login(req.user);
+  }
+
+  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.BAD_REQUEST)
+  @Post('register')
+  async register(@Body() body: RegisterDTO): Promise<AccessTokenDTO> {
+    try {
+      return this.authService.register(body);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+}
