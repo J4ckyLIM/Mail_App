@@ -12,3 +12,8 @@ export class RegisterDTO extends LoginDTO {
   @ApiProperty()
   name: string;
 }
+
+export class AccessTokenDTO {
+  @ApiProperty()
+  access_token: string;
+}
