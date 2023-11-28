@@ -26,7 +26,11 @@ export class AuthService {
   }
 
   async register(props: RegisterDTO): Promise<{ access_token: string }> {
-    const user = await this.userService.create(props);
-    return this.login(user);
+    try {
+      const user = await this.userService.create(props);
+      return this.login(user);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }
