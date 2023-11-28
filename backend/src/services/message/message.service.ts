@@ -39,4 +39,20 @@ export class MessageService extends BaseService<Message> {
     const newMessage = new Message({ ...props, writtenBy, writtenTo });
     return super.insert(newMessage);
   }
+
+  async findAllMessageWrittenByEmail(email: string): Promise<Message[]> {
+    const messagesWritten = await this.messageRepository.find({
+      where: { writtenBy: { email } },
+    })
+
+    return messagesWritten;
+  }
+
+  async findAllMessageReceivedByEmail(email: string): Promise<Message[]> {
+    const messagesReceived = await this.messageRepository.find({
+      where: { writtenTo: { email } },
+    })
+
+    return messagesReceived;
+  }
 }
