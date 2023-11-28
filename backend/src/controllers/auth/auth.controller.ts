@@ -8,15 +8,16 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.UNAUTHORIZED)
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  @Bind(Request())
-  async login(req: any): Promise<AccessTokenDTO> {
+  async login(@Request() req: any): Promise<AccessTokenDTO> {
     return this.authService.login(req.user);
   }
 
   @HttpCode(HttpStatus.CREATED)
   @HttpCode(HttpStatus.BAD_REQUEST)
+  @HttpCode(HttpStatus.INTERNAL_SERVER_ERROR)
   @Post('register')
   async register(@Body() body: RegisterDTO): Promise<AccessTokenDTO> {
     try {
