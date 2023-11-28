@@ -81,5 +81,13 @@ describe('AuthService', () => {
 
       expect(result).toEqual(accessToken);
     })
+
+    it('should throw an error if the user cannot be created', async () => {
+      const props = { email: 'new@example.com', password: 'password', name: 'New User' };
+
+      jest.spyOn(userService, 'create').mockRejectedValue(new Error('User already exists'));
+
+      await expect(service.register(props)).rejects.toThrowError('User already exists');
+    })
   })
 });
