@@ -33,7 +33,6 @@ export class UserService extends BaseService<User> {
       throw new Error(`User with id ${id} not found`);
     }
 
-    await this.userRepository.update(id, props);
-    return super.findOneBy({ id });
+    return super.update(id, props);
   }
 }
