@@ -14,6 +14,6 @@ export const messageFactory = ({
   content = 'This is a very important message', 
   writtenBy = userFactory({ email: 'user1@email.com' }), 
   writtenTo = userFactory({ email: 'user2@email.com' })
-}: MessageFactoryArgs) => {
+}: MessageFactoryArgs = {}) => {
   return new Message({ title, content, writtenBy, writtenTo });
 }
