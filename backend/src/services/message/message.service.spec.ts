@@ -25,6 +25,8 @@ describe('MessageService', () => {
           useValue: {
             save: jest.fn(),
             find: jest.fn(),
+            findOneBy: jest.fn(),
+            update: jest.fn(),
           },
         },
         {
@@ -125,6 +127,22 @@ describe('MessageService', () => {
       expect(result).toHaveLength(2);
     });
   });
+
+  describe('findMessageByIdAndUpdateStatus', () => {
+    it('should find a message by its id and update its status to hasBeenRead = true', async () => {
+      const message = messageFactory();
+      const updatedMessage = { ...message, hasBeenRead: true } as Message;
+
+      jest.spyOn(messageRepository, 'findOneBy').mockResolvedValue(message);
+      jest.spyOn(messageRepository, 'save').mockResolvedValue(updatedMessage);
+      jest.spyOn(messageRepository, 'findOneBy').mockResolvedValue(updatedMessage);
+
+      const result = await messageService.findMessageByIdAndUpdateStatus(message.id);
+
+      expect(result).toEqual(updatedMessage);
+      expect(result.hasBeenRead).toBe(true);
+    })
+  })
 });
 
 
