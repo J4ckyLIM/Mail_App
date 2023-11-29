@@ -7,6 +7,7 @@ import { UserService } from '../user/user.service';
 import { Message } from '../../domain/message/message.entity';
 import { User } from '../../domain/user/user.entity';
 import { userFactory } from '../../domain/user/user.factory';
+import { messageFactory } from '../../domain/message/message.factory';
 
 describe('MessageService', () => {
   let messageService: MessageService;
@@ -23,6 +24,9 @@ describe('MessageService', () => {
           provide: getRepositoryToken(Message),
           useValue: {
             save: jest.fn(),
+            find: jest.fn(),
+            findOneBy: jest.fn(),
+            update: jest.fn(),
           },
         },
         {
@@ -95,4 +99,53 @@ describe('MessageService', () => {
       await expect(messageService.create(props)).rejects.toThrowError(`User with email ${props.writtenTo} not found`);
     });
   });
+
+  describe('findAllMessageWrittenByEmail', () => {
+    it('should return all messages written by the given email', async () => {
+      const writer = userFactory({ email: 'writter@gmail.com' });
+      const messagesWritten = [messageFactory({ writtenBy: writer }), messageFactory({ writtenBy: writer })];
+
+      jest.spyOn(messageRepository, 'find').mockResolvedValue(messagesWritten);
+
+      const result = await messageService.findAllMessageWrittenByEmail(writer.email);
+
+      expect(result).toEqual(messagesWritten);
+      expect(result).toHaveLength(2);
+    });
+  });
+
+  describe('findAllMessageReceivedByEmail', () => {
+    it('should return all messages received by the given email', async () => {
+      const receiver = userFactory({ email: 'receiver@gmail.com' });
+      const messagesReceived = [messageFactory({ writtenTo: receiver }), messageFactory({ writtenTo: receiver })];
+
+      jest.spyOn(messageRepository, 'find').mockResolvedValue(messagesReceived);
+
+      const result = await messageService.findAllMessageReceivedByEmail(receiver.email);
+
+      expect(result).toEqual(messagesReceived);
+      expect(result).toHaveLength(2);
+    });
+  });
+
+  describe('findMessageByIdAndUpdateStatus', () => {
+    it('should find a message by its id and update its status to hasBeenRead = true', async () => {
+      const message = messageFactory();
+      const updatedMessage = { ...message, hasBeenRead: true } as Message;
+
+      jest.spyOn(messageRepository, 'findOneBy').mockResolvedValue(message);
+      jest.spyOn(messageRepository, 'save').mockResolvedValue(updatedMessage);
+      jest.spyOn(messageRepository, 'findOneBy').mockResolvedValue(updatedMessage);
+
+      const result = await messageService.findMessageByIdAndUpdateStatus(message.id);
+
+      expect(result).toEqual(updatedMessage);
+      expect(result.hasBeenRead).toBe(true);
+    })
+  })
 });
+
+
+
+
+    

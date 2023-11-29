@@ -3,6 +3,7 @@ import {
   FindOptionsWhereProperty,
   ObjectLiteral,
   Repository,
+  UpdateResult,
 } from 'typeorm';
 
 import { UUIDv4 } from 'src/types/UUID';
@@ -18,9 +19,9 @@ export class BaseService<T extends ObjectLiteral> {
     return this.repository.save(props);
   }
 
-  async update(id: UUIDv4,props: T): Promise<T> {
-    const entity = this.repository.create(props);
-    return this.repository.save(entity);
+  async update(id: UUIDv4,props: Partial<T>): Promise<T> {
+    await this.repository.update(id, { ...props })
+    return this.findOneBy({ id } as unknown as Partial<T>);
   }
 
   async delete(id: UUIDv4): Promise<void> {
