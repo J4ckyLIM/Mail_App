@@ -1,8 +1,9 @@
-import { Controller, Get, UseGuards, Request, Param, HttpStatus, HttpCode } from "@nestjs/common";
+import { Controller, Get, UseGuards, Request, Param, HttpStatus, HttpCode, Body, Post, BadRequestException } from "@nestjs/common";
 import { Message } from "../../domain/message/message.entity";
 import { MessageService } from "../../services/message/message.service";
 import { JwtAuthGuard } from "../../guard/jwt.guard";
 import { UUIDv4 } from "src/types";
+import { CreateMessageDTO } from "../../dtos/message.dto";
 
 @Controller('messages')
 export class MessagesController {
@@ -28,5 +29,19 @@ export class MessagesController {
   @Get('/:id')
   async getMessageById(@Param('id') id: UUIDv4): Promise<Message> {
     return this.messageService.findMessageByIdAndUpdateStatus(id);
+  }
+
+  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.BAD_REQUEST)
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async sendMessage(@Request() req: any, @Body() body: CreateMessageDTO): Promise<Message> {
+    try {
+      const result = await this.messageService.create({ ...body, writtenBy: req.user.email });
+      return result;
+    }
+    catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 }

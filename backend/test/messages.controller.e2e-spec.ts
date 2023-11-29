@@ -91,9 +91,49 @@ describe('MessagesController (e2e)', () => {
       jest.spyOn(messageService, 'findMessageByIdAndUpdateStatus').mockResolvedValue(null);
 
       await request(app.getHttpServer())
-        .get(`/message/${messageId}`)
+        .get(`/messages/${messageId}`)
         .set('Authorization', 'Bearer testtoken')
         .expect(HttpStatus.NOT_FOUND);
     });
   });
+
+  describe('/message (POST)', () => {
+    it('should create a message if the user and recipient exist', async () => {
+      const recipient: User = userFactory({ email: 'existing-recipient@gmail.com' });
+      
+      const payload = {
+        title: 'Hello',
+        content: 'World',
+        writtenTo: recipient.email,
+      }
+
+      const message: Message = messageFactory({ ...payload, writtenBy: user, writtenTo: recipient });
+
+      jest.spyOn(messageService, 'create').mockResolvedValue(message);
+
+      await request(app.getHttpServer())
+        .post('/messages')
+        .send(payload)
+        .set('Authorization', 'Bearer testtoken')
+        .expect(HttpStatus.CREATED);
+
+    })
+    it('should return 400 if the user or recipient does not exist', async () => {
+      const recipient: User = userFactory({ email: 'non-existing-recipient@gmail.com' });
+
+      const payload = {
+        title: 'Hello',
+        content: 'World',
+        writtenTo: recipient.email,
+      }
+
+      jest.spyOn(messageService, 'create').mockRejectedValue(new Error(`User with email ${recipient.email} not found`));
+
+      await request(app.getHttpServer())
+        .post('/messages')
+        .send(payload)
+        .set('Authorization', 'Bearer testtoken')
+        .expect(HttpStatus.BAD_REQUEST);
+    })
+  })
 });
