@@ -1,13 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
-import request from 'supertest';
-import { AuthService } from '../src/services/auth/auth.service';
-import { AuthController } from '../src/controllers/auth/auth.controller';
-import { LocalAuthGuard } from '../src/guard/local-auth.guard';
-import { UserService } from '../src/services/user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import request from 'supertest';
+
+import { AuthController } from '../src/controllers/auth/auth.controller';
 import { User } from '../src/domain/user/user.entity';
+import { LocalAuthGuard } from '../src/guard/local-auth.guard';
+import { AuthService } from '../src/services/auth/auth.service';
+import { UserService } from '../src/services/user/user.service';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
@@ -16,12 +17,17 @@ describe('AuthController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      providers: [AuthService, UserService, JwtService, {
-        provide: getRepositoryToken(User),
-        useValue: {
-          findOneBy: jest.fn(),
-        }
-      }],
+      providers: [
+        AuthService,
+        UserService,
+        JwtService,
+        {
+          provide: getRepositoryToken(User),
+          useValue: {
+            findOneBy: jest.fn(),
+          },
+        },
+      ],
     })
       .overrideGuard(LocalAuthGuard)
       .useValue({ canActivate: () => true })
@@ -55,7 +61,11 @@ describe('AuthController (e2e)', () => {
 
   describe('/auth/register (POST)', () => {
     it('should return the user token on successful registration', async () => {
-      const payload = { name: 'testuser', email: 'testuser@example.com', password: 'testpassword' };
+      const payload = {
+        name: 'testuser',
+        email: 'testuser@example.com',
+        password: 'testpassword',
+      };
       const token = { access_token: 'testtoken' };
 
       jest.spyOn(authService, 'register').mockResolvedValue(token);
@@ -66,6 +76,6 @@ describe('AuthController (e2e)', () => {
         .expect(HttpStatus.CREATED);
 
       expect(response.body).toEqual(token);
-    })
+    });
   });
 });

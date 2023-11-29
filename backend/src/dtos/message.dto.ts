@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { UUIDv4 } from "src/types";
+import { ApiProperty } from '@nestjs/swagger';
+
+import { UUIDv4 } from 'src/types';
 
 export class CreateMessageDTO {
   @ApiProperty()

@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne } from "typeorm";
-import { BaseEntity, BaseEntityCreateArgs } from "../base.entity";
-import { User } from "../user/user.entity";
+import { Column, Entity, ManyToOne } from 'typeorm';
+
+import { BaseEntity, BaseEntityCreateArgs } from '../base.entity';
+import { User } from '../user/user.entity';
 
 export interface MessageCreateArgs extends BaseEntityCreateArgs {
   title: string;
@@ -13,17 +14,17 @@ export interface MessageCreateArgs extends BaseEntityCreateArgs {
 export class Message extends BaseEntity {
   @Column()
   title: string;
-  
+
   @Column({ type: 'text' })
   content: string;
 
   @Column({ default: false })
   hasBeenRead: boolean;
 
-  @ManyToOne(() => User, (user) => user.messagesWritten)
+  @ManyToOne(() => User, user => user.messagesWritten)
   writtenBy: User;
 
-  @ManyToOne(() => User, (user) => user.messagesReceived)
+  @ManyToOne(() => User, user => user.messagesReceived)
   writtenTo: User;
 
   constructor(props: MessageCreateArgs) {

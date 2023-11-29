@@ -1,7 +1,18 @@
-import { Controller, HttpCode, HttpStatus, Post, UseGuards, Request, Bind, Body, BadRequestException } from '@nestjs/common';
-import { AuthService } from '../../services/auth/auth.service';
-import { LocalAuthGuard } from '../../guard/local-auth.guard';
+import {
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+  Request,
+  Bind,
+  Body,
+  BadRequestException,
+} from '@nestjs/common';
+
 import { AccessTokenDTO, RegisterDTO } from '../../dtos/auth.dto';
+import { LocalAuthGuard } from '../../guard/local-auth.guard';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Controller('auth')
 export class AuthController {

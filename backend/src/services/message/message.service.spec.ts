@@ -2,12 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { MessageService } from './message.service';
-import { UserService } from '../user/user.service';
 import { Message } from '../../domain/message/message.entity';
+import { messageFactory } from '../../domain/message/message.factory';
 import { User } from '../../domain/user/user.entity';
 import { userFactory } from '../../domain/user/user.factory';
-import { messageFactory } from '../../domain/message/message.factory';
+import { UserService } from '../user/user.service';
+
+import { MessageService } from './message.service';
 
 describe('MessageService', () => {
   let messageService: MessageService;
@@ -40,7 +41,9 @@ describe('MessageService', () => {
 
     messageService = module.get<MessageService>(MessageService);
     userService = module.get<UserService>(UserService);
-    messageRepository = module.get<Repository<Message>>(getRepositoryToken(Message));
+    messageRepository = module.get<Repository<Message>>(
+      getRepositoryToken(Message),
+    );
     userRepository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
@@ -56,7 +59,11 @@ describe('MessageService', () => {
         content: 'Hello, world!',
       };
 
-      const newMessage = new Message({ ...props, writtenBy: writtenByUser, writtenTo: writtenToUser });
+      const newMessage = new Message({
+        ...props,
+        writtenBy: writtenByUser,
+        writtenTo: writtenToUser,
+      });
 
       jest.spyOn(userService, 'findOneBy').mockResolvedValue(writtenByUser);
       jest.spyOn(userService, 'findOneBy').mockResolvedValue(writtenToUser);
@@ -80,7 +87,9 @@ describe('MessageService', () => {
 
       jest.spyOn(userService, 'findOneBy').mockResolvedValueOnce(undefined);
 
-      await expect(messageService.create(props)).rejects.toThrowError(`User with email ${props.writtenBy} not found`);
+      await expect(messageService.create(props)).rejects.toThrowError(
+        `User with email ${props.writtenBy} not found`,
+      );
     });
 
     it('should throw an error if the writtenTo user does not exist', async () => {
@@ -96,18 +105,25 @@ describe('MessageService', () => {
       jest.spyOn(userService, 'findOneBy').mockResolvedValueOnce(writtenByUser);
       jest.spyOn(userService, 'findOneBy').mockResolvedValueOnce(undefined);
 
-      await expect(messageService.create(props)).rejects.toThrowError(`User with email ${props.writtenTo} not found`);
+      await expect(messageService.create(props)).rejects.toThrowError(
+        `User with email ${props.writtenTo} not found`,
+      );
     });
   });
 
   describe('findAllMessageWrittenByEmail', () => {
     it('should return all messages written by the given email', async () => {
       const writer = userFactory({ email: 'writter@gmail.com' });
-      const messagesWritten = [messageFactory({ writtenBy: writer }), messageFactory({ writtenBy: writer })];
+      const messagesWritten = [
+        messageFactory({ writtenBy: writer }),
+        messageFactory({ writtenBy: writer }),
+      ];
 
       jest.spyOn(messageRepository, 'find').mockResolvedValue(messagesWritten);
 
-      const result = await messageService.findAllMessageWrittenByEmail(writer.email);
+      const result = await messageService.findAllMessageWrittenByEmail(
+        writer.email,
+      );
 
       expect(result).toEqual(messagesWritten);
       expect(result).toHaveLength(2);
@@ -117,11 +133,16 @@ describe('MessageService', () => {
   describe('findAllMessageReceivedByEmail', () => {
     it('should return all messages received by the given email', async () => {
       const receiver = userFactory({ email: 'receiver@gmail.com' });
-      const messagesReceived = [messageFactory({ writtenTo: receiver }), messageFactory({ writtenTo: receiver })];
+      const messagesReceived = [
+        messageFactory({ writtenTo: receiver }),
+        messageFactory({ writtenTo: receiver }),
+      ];
 
       jest.spyOn(messageRepository, 'find').mockResolvedValue(messagesReceived);
 
-      const result = await messageService.findAllMessageReceivedByEmail(receiver.email);
+      const result = await messageService.findAllMessageReceivedByEmail(
+        receiver.email,
+      );
 
       expect(result).toEqual(messagesReceived);
       expect(result).toHaveLength(2);
@@ -135,17 +156,16 @@ describe('MessageService', () => {
 
       jest.spyOn(messageRepository, 'findOneBy').mockResolvedValue(message);
       jest.spyOn(messageRepository, 'save').mockResolvedValue(updatedMessage);
-      jest.spyOn(messageRepository, 'findOneBy').mockResolvedValue(updatedMessage);
+      jest
+        .spyOn(messageRepository, 'findOneBy')
+        .mockResolvedValue(updatedMessage);
 
-      const result = await messageService.findMessageByIdAndUpdateStatus(message.id);
+      const result = await messageService.findMessageByIdAndUpdateStatus(
+        message.id,
+      );
 
       expect(result).toEqual(updatedMessage);
       expect(result.hasBeenRead).toBe(true);
-    })
-  })
+    });
+  });
 });
-
-
-
-
-    

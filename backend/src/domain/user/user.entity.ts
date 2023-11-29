@@ -19,17 +19,17 @@ export interface UserUpdateArgs extends Omit<BaseEntityCreateArgs, 'id'> {
 export class User extends BaseEntity {
   @Column()
   name: string;
-  
+
   @Column()
   email: string;
 
   @Column()
   password: string;
 
-  @OneToMany(() => Message, (message) => message.writtenBy)
+  @OneToMany(() => Message, message => message.writtenBy)
   messagesWritten: Message[];
 
-  @OneToMany(() => Message, (message) => message.writtenTo)
+  @OneToMany(() => Message, message => message.writtenTo)
   messagesReceived: Message[];
 
   constructor(props: UserCreateArgs) {

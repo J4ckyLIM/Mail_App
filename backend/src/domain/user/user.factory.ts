@@ -1,4 +1,4 @@
-import { User, UserCreateArgs } from "./user.entity";
+import { User, UserCreateArgs } from './user.entity';
 
 interface UserFactoryArgs extends Omit<UserCreateArgs, 'name' | 'password'> {
   name?: string;
@@ -11,4 +11,4 @@ export const userFactory = ({
   password = 'password',
 }: UserFactoryArgs): User => {
   return new User({ name, email, password });
-}
+};

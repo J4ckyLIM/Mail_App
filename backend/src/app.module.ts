@@ -5,9 +5,9 @@ import { DataSource } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
-import { UserModule } from './modules/user.module';
-import { MessageModule } from './modules/message.module';
 import { AuthModule } from './modules/auth.module';
+import { MessageModule } from './modules/message.module';
+import { UserModule } from './modules/user.module';
 
 @Module({
   imports: [

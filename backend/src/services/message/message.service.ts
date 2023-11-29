@@ -1,10 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import { BaseService } from "../base.service";
-import { Message } from "../../domain/message/message.entity";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { UserService } from "../user/user.service";
-import { UUIDv4 } from "src/types";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { UUIDv4 } from 'src/types';
+
+import { Message } from '../../domain/message/message.entity';
+import { BaseService } from '../base.service';
+import { UserService } from '../user/user.service';
 
 interface MessageCreateDto {
   title: string;
@@ -25,15 +27,19 @@ export class MessageService extends BaseService<Message> {
   }
 
   async create(props: MessageCreateDto): Promise<Message> {
-    const writtenBy = await this.userService.findOneBy({ email: props.writtenBy });
+    const writtenBy = await this.userService.findOneBy({
+      email: props.writtenBy,
+    });
 
-    if(!writtenBy) {
+    if (!writtenBy) {
       throw new Error(`User with email ${props.writtenBy} not found`);
     }
 
-    const writtenTo = await this.userService.findOneBy({ email: props.writtenTo });
+    const writtenTo = await this.userService.findOneBy({
+      email: props.writtenTo,
+    });
 
-    if(!writtenTo) {
+    if (!writtenTo) {
       throw new Error(`User with email ${props.writtenTo} not found`);
     }
 
@@ -44,7 +50,7 @@ export class MessageService extends BaseService<Message> {
   async findAllMessageWrittenByEmail(email: string): Promise<Message[]> {
     const messagesWritten = await this.messageRepository.find({
       where: { writtenBy: { email } },
-    })
+    });
 
     return messagesWritten;
   }
@@ -52,7 +58,7 @@ export class MessageService extends BaseService<Message> {
   async findAllMessageReceivedByEmail(email: string): Promise<Message[]> {
     const messagesReceived = await this.messageRepository.find({
       where: { writtenTo: { email } },
-    })
+    });
 
     return messagesReceived;
   }
@@ -63,7 +69,7 @@ export class MessageService extends BaseService<Message> {
   async findMessageByIdAndUpdateStatus(id: UUIDv4): Promise<Message> {
     const message = await this.messageRepository.findOneBy({ id });
 
-    if(!message) {
+    if (!message) {
       throw new Error(`Message with id ${id} not found`);
     }
 

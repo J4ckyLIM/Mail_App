@@ -1,10 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { userFactory } from '../../domain/user/user.factory';
+import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+
 import { User } from '../../domain/user/user.entity';
+import { userFactory } from '../../domain/user/user.factory';
+import { UserService } from '../user/user.service';
+
+import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -13,12 +15,17 @@ describe('AuthService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService, UserService, JwtService, {
-        provide: getRepositoryToken(User),
-        useValue: {
-          findOneBy: jest.fn(),
-        }
-      }],
+      providers: [
+        AuthService,
+        UserService,
+        JwtService,
+        {
+          provide: getRepositoryToken(User),
+          useValue: {
+            findOneBy: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
@@ -69,9 +76,13 @@ describe('AuthService', () => {
 
   describe('register', () => {
     it('should create a user and return an access token', async () => {
-      const props = { email: 'new@example.com', password: 'password', name: 'New User' };
+      const props = {
+        email: 'new@example.com',
+        password: 'password',
+        name: 'New User',
+      };
       const user = userFactory(props);
-      const token = 'token'
+      const token = 'token';
       const accessToken = { access_token: token };
 
       jest.spyOn(userService, 'create').mockResolvedValue(user);
@@ -80,14 +91,22 @@ describe('AuthService', () => {
       const result = await service.register(props);
 
       expect(result).toEqual(accessToken);
-    })
+    });
 
     it('should throw an error if the user cannot be created', async () => {
-      const props = { email: 'new@example.com', password: 'password', name: 'New User' };
+      const props = {
+        email: 'new@example.com',
+        password: 'password',
+        name: 'New User',
+      };
 
-      jest.spyOn(userService, 'create').mockRejectedValue(new Error('User already exists'));
+      jest
+        .spyOn(userService, 'create')
+        .mockRejectedValue(new Error('User already exists'));
 
-      await expect(service.register(props)).rejects.toThrowError('User already exists');
-    })
-  })
+      await expect(service.register(props)).rejects.toThrowError(
+        'User already exists',
+      );
+    });
+  });
 });

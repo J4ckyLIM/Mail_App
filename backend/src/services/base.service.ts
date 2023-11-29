@@ -19,8 +19,8 @@ export class BaseService<T extends ObjectLiteral> {
     return this.repository.save(props);
   }
 
-  async update(id: UUIDv4,props: Partial<T>): Promise<T> {
-    await this.repository.update(id, { ...props })
+  async update(id: UUIDv4, props: Partial<T>): Promise<T> {
+    await this.repository.update(id, { ...props });
     return this.findOneBy({ id } as unknown as Partial<T>);
   }
 

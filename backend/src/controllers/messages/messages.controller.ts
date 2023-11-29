@@ -1,9 +1,22 @@
-import { Controller, Get, UseGuards, Request, Param, HttpStatus, HttpCode, Body, Post, BadRequestException } from "@nestjs/common";
-import { Message } from "../../domain/message/message.entity";
-import { MessageService } from "../../services/message/message.service";
-import { JwtAuthGuard } from "../../guard/jwt.guard";
-import { UUIDv4 } from "src/types";
-import { CreateMessageDTO } from "../../dtos/message.dto";
+import {
+  Controller,
+  Get,
+  UseGuards,
+  Request,
+  Param,
+  HttpStatus,
+  HttpCode,
+  Body,
+  Post,
+  BadRequestException,
+} from '@nestjs/common';
+
+import { UUIDv4 } from 'src/types';
+
+import { Message } from '../../domain/message/message.entity';
+import { CreateMessageDTO } from '../../dtos/message.dto';
+import { JwtAuthGuard } from '../../guard/jwt.guard';
+import { MessageService } from '../../services/message/message.service';
 
 @Controller('messages')
 export class MessagesController {
@@ -35,12 +48,17 @@ export class MessagesController {
   @HttpCode(HttpStatus.BAD_REQUEST)
   @UseGuards(JwtAuthGuard)
   @Post()
-  async sendMessage(@Request() req: any, @Body() body: CreateMessageDTO): Promise<Message> {
+  async sendMessage(
+    @Request() req: any,
+    @Body() body: CreateMessageDTO,
+  ): Promise<Message> {
     try {
-      const result = await this.messageService.create({ ...body, writtenBy: req.user.email });
+      const result = await this.messageService.create({
+        ...body,
+        writtenBy: req.user.email,
+      });
       return result;
-    }
-    catch (error) {
+    } catch (error) {
       throw new BadRequestException(error.message);
     }
   }
