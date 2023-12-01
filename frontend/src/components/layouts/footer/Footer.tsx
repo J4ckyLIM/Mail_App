@@ -3,7 +3,6 @@ import {
   Container,
   Stack,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
@@ -32,8 +31,6 @@ const Logo = (props: any) => {
 const Footer = () => {
   return (
     <Box
-      bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}
     >
       <Container
         as={Stack}

@@ -1,4 +1,4 @@
-import { Box, useColorModeValue } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { FC, ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ interface MainLayoutProps {
 
 const MainLayout: FC<MainLayoutProps> = () => {
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH="100vh">
       <TopBar />
       <Box ml={{ base: 0 }} p="4">
         <Outlet />
