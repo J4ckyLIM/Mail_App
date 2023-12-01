@@ -1,7 +1,8 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
-import { useMutationLogin, useMutationRegister } from '../api/auth';
-import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+
+import { useMutationLogin, useMutationRegister } from '../api/auth';
 
 interface AuthenticationConfig {
   accessToken: string | null;
@@ -16,7 +17,9 @@ export const AuthenticationContext = createContext<AuthenticationConfig>({
 });
 
 export const AuthenticationProvider = ({ children }: { children: any }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('token'));
+  const [accessToken, setAccessToken] = useState<string | null>(
+    localStorage.getItem('token'),
+  );
   const navigate = useNavigate();
 
   const { login: loginFunction } = useMutationLogin();
@@ -26,29 +29,40 @@ export const AuthenticationProvider = ({ children }: { children: any }) => {
   const saveToken = (token: string) => {
     localStorage.setItem('token', token);
     setAccessToken(token);
-  }
+  };
 
   const onLoginError = (error: Error) => {
     toast.error(error.message);
-  }
+  };
 
   const onRegisterError = (error: Error) => {
     toast.error(error.message);
-  }
+  };
 
   const login = async (email: string, password: string) => {
-    loginFunction({ email, password, onSuccess: saveToken, onError: onLoginError });
-  }
+    loginFunction({
+      email,
+      password,
+      onSuccess: saveToken,
+      onError: onLoginError,
+    });
+  };
 
   const register = async (email: string, password: string, name: string) => {
-    registerFunction({ email, password, name, onSuccess: saveToken, onError: onRegisterError });
-  }
+    registerFunction({
+      email,
+      password,
+      name,
+      onSuccess: saveToken,
+      onError: onRegisterError,
+    });
+  };
 
   const contextValues = useMemo(() => {
     return {
       accessToken,
       login,
-      register
+      register,
     };
   }, [accessToken, login]);
 

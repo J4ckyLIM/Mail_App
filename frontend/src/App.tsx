@@ -4,8 +4,8 @@ import { Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { Toaster } from 'sonner';
 
-import routes from './router';
 import { AuthenticationProvider } from './contexts/AuthenticationProvider';
+import routes from './router';
 
 const App = () => {
   const elements = useRoutes(routes);
@@ -18,10 +18,7 @@ const App = () => {
           <Suspense>{elements}</Suspense>
         </AuthenticationProvider>
       </QueryClientProvider>
-      <Toaster
-        position="top-right"
-        richColors
-      />
+      <Toaster position="top-right" richColors />
     </ChakraProvider>
   );
 };

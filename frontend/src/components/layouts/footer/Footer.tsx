@@ -1,9 +1,4 @@
-import {
-  Box,
-  Container,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 import { SocialButton } from '../../buttons/SocialButton';
@@ -30,8 +25,7 @@ const Logo = (props: any) => {
 
 const Footer = () => {
   return (
-    <Box
-    >
+    <Box>
       <Container
         as={Stack}
         maxW={'6xl'}

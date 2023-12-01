@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { fetchApi, methods } from './fetchApi';
 import { AccessToken } from '../types/auth/types';
+
+import { fetchApi, methods } from './fetchApi';
 
 export interface MutationLoginArgs {
   email: string;
@@ -13,7 +14,6 @@ export interface MutationLoginArgs {
 export interface MutationRegisterArgs extends MutationLoginArgs {
   name: string;
 }
-
 
 const uri = '/auth';
 
@@ -33,12 +33,11 @@ const uri = '/auth';
 export const useMutationLogin = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<
-    AccessToken,
-    Error,
-    MutationLoginArgs
-  >({
-    mutationFn: async ({ email, password }: MutationLoginArgs): Promise<AccessToken> =>
+  const mutation = useMutation<AccessToken, Error, MutationLoginArgs>({
+    mutationFn: async ({
+      email,
+      password,
+    }: MutationLoginArgs): Promise<AccessToken> =>
       fetchApi({
         uri: `${uri}/login`,
         method: methods.POST,
@@ -65,19 +64,19 @@ export const useMutationLogin = () => {
 export const useMutationRegister = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<
-    AccessToken,
-    Error,
-    MutationRegisterArgs
-  >({
-    mutationFn: async ({ email, password, name }: MutationRegisterArgs): Promise<AccessToken> =>
+  const mutation = useMutation<AccessToken, Error, MutationRegisterArgs>({
+    mutationFn: async ({
+      email,
+      password,
+      name,
+    }: MutationRegisterArgs): Promise<AccessToken> =>
       fetchApi({
         uri: `${uri}/register`,
         method: methods.POST,
         body: {
           email,
           password,
-          name
+          name,
         },
       }),
     onSuccess: (data, { onSuccess }) => {

@@ -1,4 +1,5 @@
-import PersonIcon from './person.svg';
 import KeyIcon from './key.svg';
+import LogoIcon from './logo.svg';
+import PersonIcon from './person.svg';
 
-export { PersonIcon, KeyIcon };
+export { PersonIcon, KeyIcon, LogoIcon };

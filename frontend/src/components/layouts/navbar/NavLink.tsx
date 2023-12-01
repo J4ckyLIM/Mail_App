@@ -13,7 +13,7 @@ const NavLink: FC<NavLinkProps> = ({ name, path }) => (
     py={1}
     rounded={'md'}
     _hover={{
-      textDecoration: 'none'
+      textDecoration: 'none',
     }}
   >
     <RouterLink to={path}>{name}</RouterLink>

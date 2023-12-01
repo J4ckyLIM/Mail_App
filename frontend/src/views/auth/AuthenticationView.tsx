@@ -1,5 +1,7 @@
 import { Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import { FC } from 'react';
+
+import { LogoIcon } from '../../assets';
 import AuthenticationForm from '../../components/forms/AuthenticationForm';
 import { useAuth } from '../../hooks/useAuth';
 import { AuthenticationType } from '../../types/auth/types';
@@ -14,26 +16,36 @@ export interface AuthenticationFormHandlerProps {
 const AuthenticationView: FC = () => {
   const { login, register } = useAuth();
 
-  const onSubmitHandler = ({email, password, name, type}: AuthenticationFormHandlerProps) => {
+  const onSubmitHandler = ({
+    email,
+    password,
+    name,
+    type,
+  }: AuthenticationFormHandlerProps) => {
     if (type === AuthenticationType.LOGIN) {
       login(email, password);
     } else {
-      console.log('register my friend')
-      register(email, password, name);  
+      register(email, password, name);
     }
   };
 
   return (
     <Flex height={'100vh'} width={'100%'}>
-      <VStack flex="40%">
-        <HStack>LOGO</HStack>
-        <AuthenticationForm onSubmit={onSubmitHandler} />
+      <VStack flex="40%" alignItems="flex-start" p="7">
+        <img src={LogoIcon} alt={'logo'} style={{ paddingLeft: 15 }} />
+        <Flex h="full" w="full">
+          <AuthenticationForm onSubmit={onSubmitHandler} />
+        </Flex>
       </VStack>
-      <Box flex="60%" backgroundImage={'url(/assets/login-background.png)'} backgroundSize={'cover'} backgroundPosition={'center'} height={'100vh'} />
+      <Box
+        flex="60%"
+        backgroundImage={'url(/assets/login-background.png)'}
+        backgroundSize={'cover'}
+        backgroundPosition={'center'}
+        height={'100vh'}
+      />
     </Flex>
   );
 };
 
 export default AuthenticationView;
-
-// Mica test warp c'est un terminal pas mal je trouve

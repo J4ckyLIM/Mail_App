@@ -1,5 +1,11 @@
-import { FormControl, FormLabel, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import { FC, HTMLInputTypeAttribute, ReactNode } from "react";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from '@chakra-ui/react';
+import { FC, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 interface FormInputProps {
   icon?: ReactNode;
@@ -11,17 +17,32 @@ interface FormInputProps {
   onChange: (event: any) => void;
 }
 
-const FormInput: FC<FormInputProps> = ({ icon, label, placeholder, inputType, value, onChange, isRequired = false }) => {
+const FormInput: FC<FormInputProps> = ({
+  icon,
+  label,
+  placeholder,
+  inputType,
+  value,
+  onChange,
+  isRequired = false,
+}) => {
   return (
-    <FormControl>
-      <FormLabel>{label}</FormLabel>
+    <FormControl mt="6">
+      <FormLabel textTransform="uppercase" mb="0">
+        {label}
+      </FormLabel>
       <InputGroup>
         {icon && (
-          <InputLeftElement pointerEvents='none'>
-            {icon}
-          </InputLeftElement>
+          <InputLeftElement pointerEvents="none">{icon}</InputLeftElement>
         )}
-        <Input type={inputType} placeholder={placeholder} isRequired value={value} onChange={onChange}/>
+        <Input
+          height="46px"
+          type={inputType}
+          placeholder={placeholder}
+          isRequired={isRequired}
+          value={value}
+          onChange={onChange}
+        />
       </InputGroup>
     </FormControl>
   );
