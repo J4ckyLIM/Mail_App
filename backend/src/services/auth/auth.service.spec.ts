@@ -65,17 +65,18 @@ describe('AuthService', () => {
     it('should return an access token', async () => {
       const user = userFactory({ email: 'test@example.com' });
       const accessToken = 'access_token';
+      const expectedResult = { access_token: accessToken, user };
 
       jest.spyOn(jwtService, 'signAsync').mockResolvedValue(accessToken);
 
       const result = await service.login(user);
 
-      expect(result).toEqual({ access_token: accessToken });
+      expect(result).toEqual(expectedResult);
     });
   });
 
   describe('register', () => {
-    it('should create a user and return an access token', async () => {
+    it('should create a user and return an object with the access token and user', async () => {
       const props = {
         email: 'new@example.com',
         password: 'password',
@@ -83,14 +84,14 @@ describe('AuthService', () => {
       };
       const user = userFactory(props);
       const token = 'token';
-      const accessToken = { access_token: token };
+      const expectedResult = { access_token: token, user };
 
       jest.spyOn(userService, 'create').mockResolvedValue(user);
       jest.spyOn(jwtService, 'signAsync').mockResolvedValue(token);
 
       const result = await service.register(props);
 
-      expect(result).toEqual(accessToken);
+      expect(result).toEqual(expectedResult);
     });
 
     it('should throw an error if the user cannot be created', async () => {
