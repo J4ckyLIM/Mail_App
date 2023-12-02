@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { AccessToken } from '../types/auth/types';
+import { AuthResult } from '../types/auth/types';
 
 import { fetchApi, methods } from './fetchApi';
 
 export interface MutationLoginArgs {
   email: string;
   password: string;
-  onSuccess?: (successCallbackData: string) => void;
+  onSuccess?: (successCallbackData: AuthResult) => void;
   onError?: (error: Error) => void;
 }
 
@@ -33,11 +33,11 @@ const uri = '/auth';
 export const useMutationLogin = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<AccessToken, Error, MutationLoginArgs>({
+  const mutation = useMutation<AuthResult, Error, MutationLoginArgs>({
     mutationFn: async ({
       email,
       password,
-    }: MutationLoginArgs): Promise<AccessToken> =>
+    }: MutationLoginArgs): Promise<AuthResult> =>
       fetchApi({
         uri: `${uri}/login`,
         method: methods.POST,
@@ -48,7 +48,7 @@ export const useMutationLogin = () => {
       }),
     onSuccess: (data, { onSuccess }) => {
       if (onSuccess) {
-        onSuccess(data.access_token);
+        onSuccess(data);
       }
     },
     onError: (error, { onError }) => {
@@ -64,12 +64,12 @@ export const useMutationLogin = () => {
 export const useMutationRegister = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<AccessToken, Error, MutationRegisterArgs>({
+  const mutation = useMutation<AuthResult, Error, MutationRegisterArgs>({
     mutationFn: async ({
       email,
       password,
       name,
-    }: MutationRegisterArgs): Promise<AccessToken> =>
+    }: MutationRegisterArgs): Promise<AuthResult> =>
       fetchApi({
         uri: `${uri}/register`,
         method: methods.POST,
@@ -81,7 +81,7 @@ export const useMutationRegister = () => {
       }),
     onSuccess: (data, { onSuccess }) => {
       if (onSuccess) {
-        onSuccess(data.access_token);
+        onSuccess(data);
       }
     },
     onError: (error, { onError }) => {
