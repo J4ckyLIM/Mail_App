@@ -1,4 +1,4 @@
-import { Box, Link, useColorModeValue } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { FC } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -14,7 +14,6 @@ const NavLink: FC<NavLinkProps> = ({ name, path }) => (
     rounded={'md'}
     _hover={{
       textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
     }}
   >
     <RouterLink to={path}>{name}</RouterLink>

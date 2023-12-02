@@ -1,10 +1,4 @@
-import {
-  Box,
-  Container,
-  Stack,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Container, Stack, Text } from '@chakra-ui/react';
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 import { SocialButton } from '../../buttons/SocialButton';
@@ -31,10 +25,7 @@ const Logo = (props: any) => {
 
 const Footer = () => {
   return (
-    <Box
-      bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}
-    >
+    <Box>
       <Container
         as={Stack}
         maxW={'6xl'}

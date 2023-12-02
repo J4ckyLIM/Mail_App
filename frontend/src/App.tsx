@@ -2,10 +2,9 @@ import { ChakraProvider, theme } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Toaster } from 'sonner';
 
-import { ExampleProvider } from './contexts/ExampleProvider';
+import { AuthenticationProvider } from './contexts/AuthenticationProvider';
 import routes from './router';
 
 const App = () => {
@@ -15,22 +14,11 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <ExampleProvider>
+        <AuthenticationProvider>
           <Suspense>{elements}</Suspense>
-        </ExampleProvider>
+        </AuthenticationProvider>
       </QueryClientProvider>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <Toaster position="top-right" richColors />
     </ChakraProvider>
   );
 };
