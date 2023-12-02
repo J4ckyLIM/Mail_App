@@ -10,9 +10,9 @@ interface MainLayoutProps {
 
 const MainLayout: FC<MainLayoutProps> = () => {
   return (
-    <VStack minH="100vh" w="full">
+    <VStack h="100vh" w="full">
       <TopBar />
-      <Box ml={{ base: 0 }} p="4" border="1px solid blue" flexGrow="1 !important" flex="0 0 auto" w="full">
+      <Box ml={{ base: 0 }} border="1px solid blue" flexGrow="1 !important" flex="0 0 auto" w="full">
         <Outlet />
       </Box>
     </VStack>
