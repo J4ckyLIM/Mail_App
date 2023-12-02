@@ -10,6 +10,7 @@ interface AuthenticationConfig {
   user: User | null;
   login: (email: string, password: string) => void;
   register: (email: string, password: string, name: string) => void;
+  logout: () => void;
 }
 
 export const AuthenticationContext = createContext<AuthenticationConfig>({
@@ -17,6 +18,7 @@ export const AuthenticationContext = createContext<AuthenticationConfig>({
   user: null,
   login: () => {},
   register: () => {},
+  logout: () => {},
 });
 
 export const AuthenticationProvider = ({ children }: { children: any }) => {
@@ -65,22 +67,29 @@ export const AuthenticationProvider = ({ children }: { children: any }) => {
     });
   };
 
+  const logout = async () => {
+    localStorage.removeItem('token');
+    setAccessToken(null);
+    setUser(null);
+  };
+
   const contextValues = useMemo(() => {
     return {
       accessToken,
       user,
       login,
       register,
+      logout
     };
   }, [accessToken, user]);
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!accessToken || !user) {
       navigate('/auth');
     } else {
       navigate('/');
     }
-  }, [accessToken, navigate]);
+  }, [accessToken, user, navigate]);
 
   return (
     <AuthenticationContext.Provider value={contextValues}>
