@@ -9,5 +9,6 @@ export const mapMessageToDto = (message: Message): MessageDTO => {
     writtenBy: message.writtenBy.email,
     writtenTo: message.writtenTo.email,
     sentAt: message.createdAt,
+    hasBeenRead: message.hasBeenRead,
   };
 };

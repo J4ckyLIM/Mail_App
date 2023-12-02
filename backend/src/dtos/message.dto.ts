@@ -31,4 +31,7 @@ export class MessageDTO {
 
   @ApiProperty()
   sentAt: Date;
+
+  @ApiProperty()
+  hasBeenRead: boolean;
 }
