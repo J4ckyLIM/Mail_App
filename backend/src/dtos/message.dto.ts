@@ -12,3 +12,23 @@ export class CreateMessageDTO {
   @ApiProperty()
   writtenTo: UUIDv4;
 }
+
+export class MessageDTO {
+  @ApiProperty()
+  id: UUIDv4;
+
+  @ApiProperty()
+  title: string;
+
+  @ApiProperty()
+  content: string;
+
+  @ApiProperty()
+  writtenBy: string;
+
+  @ApiProperty()
+  writtenTo: string;
+
+  @ApiProperty()
+  sentAt: Date;
+}
