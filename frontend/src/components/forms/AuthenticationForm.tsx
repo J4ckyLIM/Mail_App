@@ -82,13 +82,13 @@ const AuthenticationForm: FC<AuthenticationFormProps> = ({ onSubmit }) => {
             {type === AuthenticationType.LOGIN ? (
               <MainButton
                 props={{ type: 'submit' }}
-                title="Login"
+                title="Se connecter"
                 onClick={() => setType(AuthenticationType.LOGIN)}
               />
             ) : (
               <MainButton
                 props={{ type: 'submit' }}
-                title="Register"
+                title="S'inscrire"
                 onClick={() => setType(AuthenticationType.REGISTER)}
               />
             )}
