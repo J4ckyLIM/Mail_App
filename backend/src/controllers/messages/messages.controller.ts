@@ -14,9 +14,10 @@ import {
 import { UUIDv4 } from 'src/types';
 
 import { Message } from '../../domain/message/message.entity';
-import { CreateMessageDTO } from '../../dtos/message.dto';
+import { CreateMessageDTO, MessageDTO } from '../../dtos/message.dto';
 import { JwtAuthGuard } from '../../guard/jwt.guard';
 import { MessageService } from '../../services/message/message.service';
+import { mapMessageToDto } from '../../dtos/mappers/mapMessageToDto';
 
 @Controller('messages')
 export class MessagesController {
@@ -25,8 +26,9 @@ export class MessagesController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   @Get('/all')
-  async getAllMessageForUser(@Request() req: any): Promise<Message[]> {
-    return this.messageService.findAllMessageReceivedByEmail(req.user.email);
+  async getAllMessageForUser(@Request() req: any): Promise<MessageDTO[]> {
+    const messages = await this.messageService.findAllMessageReceivedByEmail(req.user.email);
+    return messages.map(mapMessageToDto);
   }
 
   @HttpCode(HttpStatus.OK)
