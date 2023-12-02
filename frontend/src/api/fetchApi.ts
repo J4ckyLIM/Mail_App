@@ -68,7 +68,7 @@ export const fetchApi = async ({
     response = await fetch(`${BASE_URL}${uri}`, {
       method,
       headers: {
-        // Authorization: `Bearer ${window.localStorage.getItem('token') || ''}`,
+        Authorization: `Bearer ${window.localStorage.getItem('token') || ''}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
