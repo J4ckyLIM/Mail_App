@@ -14,7 +14,7 @@ const TopBar = () => {
 
   return (
     <>
-      <Box px="6" py="2">
+      <Box px="6" py="2" w="full">
         <Flex h="16" alignItems="center" justifyContent="space-between">
           <Flex alignItems="center">
             <img src={LogoIcon} />

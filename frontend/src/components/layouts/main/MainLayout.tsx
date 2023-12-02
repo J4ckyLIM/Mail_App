@@ -1,8 +1,7 @@
-import { Box } from '@chakra-ui/react';
+import { Box, VStack } from '@chakra-ui/react';
 import { FC, ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import Footer from '../footer/Footer';
 import TopBar from '../navbar/TopBar';
 
 interface MainLayoutProps {
@@ -11,13 +10,12 @@ interface MainLayoutProps {
 
 const MainLayout: FC<MainLayoutProps> = () => {
   return (
-    <Box minH="100vh">
+    <VStack minH="100vh" w="full">
       <TopBar />
-      <Box ml={{ base: 0 }} p="4">
+      <Box ml={{ base: 0 }} p="4" border="1px solid blue" flexGrow="1 !important" flex="0 0 auto" w="full">
         <Outlet />
       </Box>
-      <Footer />
-    </Box>
+    </VStack>
   );
 };
 
