@@ -1,6 +1,5 @@
-
-import { Box } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { Box } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 interface ScrollableListProps<T> {
   items: T[];
@@ -13,7 +12,7 @@ const ScrollableList = <T extends Object>({
 }: ScrollableListProps<T>) => {
   return (
     <Box h="full" overflowY="auto" w="full">
-      {items.map((item) => renderItem(item))}
+      {items.map(item => renderItem(item))}
     </Box>
   );
 };

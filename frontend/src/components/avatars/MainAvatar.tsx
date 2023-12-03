@@ -1,17 +1,25 @@
-import { FC } from "react";
-import { User } from "../../types/auth/types";
-import { Avatar, Badge, Box, HStack, VStack } from "@chakra-ui/react";
+import { Avatar, Badge, Box, HStack, VStack } from '@chakra-ui/react';
+import { FC } from 'react';
+
+import { User } from '../../types/auth/types';
 
 interface MainAvatarProps {
   user: User;
   numberOfUnreadMessages: number;
 }
 
-const MainAvatar: FC<MainAvatarProps> = ({ user, numberOfUnreadMessages = 10 }) => {
+const MainAvatar: FC<MainAvatarProps> = ({
+  user,
+  numberOfUnreadMessages = 10,
+}) => {
   return (
     <HStack spacing="2">
       <Box position="relative" display="inline-block">
-        <Avatar name={user.name} size="md" bgGradient="linear(to-r, #2580B4, #2FD8D8)" />
+        <Avatar
+          name={user.name}
+          size="md"
+          bgGradient="linear(to-r, #2580B4, #2FD8D8)"
+        />
         {numberOfUnreadMessages > 0 && (
           <Badge
             borderRadius="full"
@@ -38,7 +46,7 @@ const MainAvatar: FC<MainAvatarProps> = ({ user, numberOfUnreadMessages = 10 }) 
         </Box>
       </VStack>
     </HStack>
-  )
+  );
 };
 
 export default MainAvatar;

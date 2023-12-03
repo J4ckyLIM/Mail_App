@@ -1,9 +1,4 @@
-import {
-  Box,
-  Flex,
-  HStack,
-  IconButton,
-} from '@chakra-ui/react';
+import { Box, Flex, HStack, IconButton } from '@chakra-ui/react';
 
 import { LogoIcon, LogoutIcon } from '../../../assets';
 import { useAuth } from '../../../hooks/useAuth';
@@ -19,9 +14,19 @@ const TopBar = () => {
           <Flex alignItems="center">
             <img src={LogoIcon} />
           </Flex>
-          <HStack display="flex" alignItems="center" justify="flex-end" spacing="4">
-            {user && (<MainAvatar user={user} numberOfUnreadMessages={10} />)}
-            <IconButton aria-label="Déconnexion" icon={<img src={LogoutIcon}/>} bgColor="transparent" onClick={logout} />
+          <HStack
+            display="flex"
+            alignItems="center"
+            justify="flex-end"
+            spacing="4"
+          >
+            {user && <MainAvatar user={user} numberOfUnreadMessages={10} />}
+            <IconButton
+              aria-label="Déconnexion"
+              icon={<img src={LogoutIcon} />}
+              bgColor="transparent"
+              onClick={logout}
+            />
           </HStack>
         </Flex>
       </Box>

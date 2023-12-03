@@ -6,4 +6,4 @@ export type Message = {
   writtenTo: string;
   sentAt: Date;
   hasBeenRead: boolean;
-}
+};

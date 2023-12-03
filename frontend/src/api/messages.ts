@@ -1,9 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { AuthResult } from '../types/auth/types';
+import { Message } from '../types/messages/types';
 
 import { fetchApi, methods } from './fetchApi';
-import { Message } from '../types/messages/types';
 
 export interface MutationUpdateArgs {
   id: string;
@@ -24,7 +23,13 @@ export const useGetAllReceivedMessage = () => {
       });
     },
   });
-  return { ...query, messages: query.data?.map(message => ({ ...message, sentAt: new Date(message.sentAt) })) };
+  return {
+    ...query,
+    messages: query.data?.map(message => ({
+      ...message,
+      sentAt: new Date(message.sentAt),
+    })),
+  };
 };
 
 export const useGetMessageById = (id: string) => {
@@ -38,7 +43,7 @@ export const useGetMessageById = (id: string) => {
     },
   });
   return { ...query, message: query.data };
-}
+};
 
 export const useUpdateMessageStatus = () => {
   const mutation = useMutation<Message, Error, MutationUpdateArgs>({
@@ -50,7 +55,7 @@ export const useUpdateMessageStatus = () => {
         uri: `${uri}/${id}`,
         method: methods.PATCH,
         body: {
-          hasBeenRead
+          hasBeenRead,
         },
       }),
     onSuccess: (data, { onSuccess }) => {
@@ -66,4 +71,4 @@ export const useUpdateMessageStatus = () => {
   });
 
   return { ...mutation, update: mutation.mutate };
-}
+};

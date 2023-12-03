@@ -79,7 +79,7 @@ export const AuthenticationProvider = ({ children }: { children: any }) => {
       user,
       login,
       register,
-      logout
+      logout,
     };
   }, [accessToken, user]);
 
