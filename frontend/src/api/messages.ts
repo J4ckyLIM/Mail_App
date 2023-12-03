@@ -30,3 +30,16 @@ export const useGetAllReceivedMessage = () => {
   });
   return { ...query, messages: query.data };
 };
+
+export const useGetMessageById = (id: string) => {
+  const query = useQuery<Message, Error>({
+    queryKey: [uri, id],
+    queryFn: async (): Promise<Message> => {
+      return fetchApi({
+        uri: `${uri}/${id}`,
+        method: methods.GET,
+      });
+    },
+  });
+  return { ...query, message: query.data };
+}
