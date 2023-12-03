@@ -52,7 +52,7 @@ export class MessageService extends BaseService<Message> {
       where: { writtenBy: { email } },
       order: {
         createdAt: 'DESC',
-      }
+      },
     });
 
     return messagesWritten;
