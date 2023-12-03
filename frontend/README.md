@@ -15,3 +15,12 @@ Docker and docker compose
 ```bash
   yarn start
 ```
+
+### Use the app
+
+In order to test the app you can use the following account
+
+```bash
+  email: jacky@gmail.com
+  password: password
+```
