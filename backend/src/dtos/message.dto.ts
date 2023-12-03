@@ -13,6 +13,14 @@ export class CreateMessageDTO {
   writtenTo: UUIDv4;
 }
 
+export class UpdateMessageDTO {
+  @ApiProperty()
+  id: UUIDv4;
+
+  @ApiProperty()
+  hasBeenRead: boolean;
+}
+
 export class MessageDTO {
   @ApiProperty()
   id: UUIDv4;

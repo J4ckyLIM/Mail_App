@@ -9,12 +9,14 @@ import {
   Body,
   Post,
   BadRequestException,
+  NotFoundException,
+  Patch,
 } from '@nestjs/common';
 
 import { UUIDv4 } from 'src/types';
 
 import { Message } from '../../domain/message/message.entity';
-import { CreateMessageDTO, MessageDTO } from '../../dtos/message.dto';
+import { CreateMessageDTO, MessageDTO, UpdateMessageDTO } from '../../dtos/message.dto';
 import { JwtAuthGuard } from '../../guard/jwt.guard';
 import { MessageService } from '../../services/message/message.service';
 import { mapMessageToDto } from '../../dtos/mappers/mapMessageToDto';
@@ -43,7 +45,13 @@ export class MessagesController {
   @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getMessageById(@Param('id') id: UUIDv4): Promise<Message> {
-    return this.messageService.findMessageByIdAndUpdateStatus(id);
+    try {
+      const message = await this.messageService.findMessageByIdAndUpdateStatus(id);
+      return message
+    }
+    catch (error) {
+      throw new NotFoundException(error.message);
+    } 
   }
 
   @HttpCode(HttpStatus.CREATED)
@@ -59,6 +67,22 @@ export class MessagesController {
         ...body,
         writtenBy: req.user.email,
       });
+      return result;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.BAD_REQUEST)
+  @UseGuards(JwtAuthGuard)
+  @Patch('/:id')
+  async updateMessageStatus(
+    @Param('id') id: UUIDv4,
+    @Body() body: UpdateMessageDTO,
+  ): Promise<Message> {
+    try {
+      const result = await this.messageService.update(id, body);
       return result;
     } catch (error) {
       throw new BadRequestException(error.message);

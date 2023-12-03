@@ -97,7 +97,7 @@ describe('MessagesController (e2e)', () => {
 
       jest
         .spyOn(messageService, 'findMessageByIdAndUpdateStatus')
-        .mockResolvedValue(null);
+        .mockRejectedValue(new Error(`Message with id ${messageId} not found`));
 
       await request(app.getHttpServer())
         .get(`/messages/${messageId}`)
