@@ -1,4 +1,4 @@
-import { messageFactory } from "src/domain/message/message.factory";
+import { messageFactory } from "../../domain/message/message.factory";
 import { seedUsers } from "../users/seed-users";
 
 export const seedMessages = [

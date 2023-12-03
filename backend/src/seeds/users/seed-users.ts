@@ -1,4 +1,4 @@
-import { userFactory } from "src/domain/user/user.factory";
+import { userFactory } from "../../domain/user/user.factory";
 
 export const seedUsers = [
   userFactory({ email: 'jacky@gmail.com', name: 'Jacky' }),
