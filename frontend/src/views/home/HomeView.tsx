@@ -6,6 +6,7 @@ import { useGetAllReceivedMessage } from '../../api/messages';
 import { Message } from '../../types/messages/types';
 import MessageItem from '../../components/lists/items/MessageItem';
 import ScrollableList from '../../components/lists/ScrollableList';
+import MessageDetailView from './MessageDetailView';
 
 const HomeView: FC = () => {
   const [displayOnlyUnread, setDisplayOnlyUnread] = useState<boolean>(false);
@@ -35,7 +36,7 @@ const HomeView: FC = () => {
     {
       id: '3',
       title: 'Message 3',
-      content: 'Contenu du message 3',
+      content: 'Contenu du message 3 lorm ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies ultricies, nisl nisl luctus nisl, nec ultricies nisl nisl eget nisl.',
       writtenBy: 'truc@gmail.com',
       writtenTo: 'plop@gmail.com',
       hasBeenRead: false,
@@ -69,7 +70,7 @@ const HomeView: FC = () => {
           <Text fontWeight="semibold" fontSize="sm">
             Boîte de réception ({filteredMessages?.length ?? 0})
           </Text>
-          <Checkbox size='md' colorScheme='red' isChecked={displayOnlyUnread} onChange={(event) => setDisplayOnlyUnread(event.target.checked)}>
+          <Checkbox size='md' colorScheme="blue" isChecked={displayOnlyUnread} onChange={(event) => setDisplayOnlyUnread(event.target.checked)}>
             <Text fontSize="xs" color="gray" fontWeight="normal">
               Afficher uniquement les messages non lus
             </Text>
@@ -79,16 +80,22 @@ const HomeView: FC = () => {
           <ScrollableList<Message> items={filteredMessages} renderItem={renderMessageItem} />
         )}
       </VStack>
-      <HStack
-        flex="66%"
-        height="100%"
-        w="full"
-        border="1px solid blue"
-        backgroundColor="#F1F1F1"
-        justifyContent="center"
-      >
-        <img src={EmptyMailIcon} />
-      </HStack>
+      {selectedMessage ? (
+        <VStack flex="66%" p="12" backgroundColor="#F1F1F1">
+          <MessageDetailView message={selectedMessage} />
+        </VStack>
+      ) : (
+        <HStack
+          flex="66%"
+          height="100%"
+          w="full"
+          border="1px solid blue"
+          backgroundColor="#F1F1F1"
+          justifyContent="center"
+        >
+          <img src={EmptyMailIcon} />
+        </HStack>
+      )}
     </Box>
   );
 };
