@@ -1,19 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { AuthResult } from '../types/auth/types';
 
 import { fetchApi, methods } from './fetchApi';
 import { Message } from '../types/messages/types';
 
-export interface MutationLoginArgs {
-  email: string;
-  password: string;
-  onSuccess?: (successCallbackData: AuthResult) => void;
+export interface MutationUpdateArgs {
+  id: string;
+  hasBeenRead: boolean;
+  onSuccess?: (successCallbackData: Message) => void;
   onError?: (error: Error) => void;
-}
-
-export interface MutationRegisterArgs extends MutationLoginArgs {
-  name: string;
 }
 
 const uri = '/messages';
@@ -28,7 +24,7 @@ export const useGetAllReceivedMessage = () => {
       });
     },
   });
-  return { ...query, messages: query.data };
+  return { ...query, messages: query.data?.map(message => ({ ...message, sentAt: new Date(message.sentAt) })) };
 };
 
 export const useGetMessageById = (id: string) => {
@@ -42,4 +38,32 @@ export const useGetMessageById = (id: string) => {
     },
   });
   return { ...query, message: query.data };
+}
+
+export const useUpdateMessageStatus = () => {
+  const mutation = useMutation<Message, Error, MutationUpdateArgs>({
+    mutationFn: async ({
+      id,
+      hasBeenRead,
+    }: MutationUpdateArgs): Promise<Message> =>
+      fetchApi({
+        uri: `${uri}/${id}`,
+        method: methods.PATCH,
+        body: {
+          hasBeenRead
+        },
+      }),
+    onSuccess: (data, { onSuccess }) => {
+      if (onSuccess) {
+        onSuccess(data);
+      }
+    },
+    onError: (error, { onError }) => {
+      if (onError) {
+        onError(error);
+      }
+    },
+  });
+
+  return { ...mutation, update: mutation.mutate };
 }
