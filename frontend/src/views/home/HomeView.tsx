@@ -2,7 +2,7 @@ import { Box, Checkbox, HStack, Text, VStack } from '@chakra-ui/react';
 import { FC, useMemo, useState } from 'react';
 
 import { EmptyMailIcon } from '../../assets';
-import { useGetAllReceivedMessage } from '../../api/messages';
+import { useGetAllReceivedMessage, useUpdateMessageStatus } from '../../api/messages';
 import { Message } from '../../types/messages/types';
 import MessageItem from '../../components/lists/items/MessageItem';
 import ScrollableList from '../../components/lists/ScrollableList';
@@ -12,56 +12,25 @@ const HomeView: FC = () => {
   const [displayOnlyUnread, setDisplayOnlyUnread] = useState<boolean>(false);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
-  const { isLoading, isError, messages } = useGetAllReceivedMessage();
+  const { messages, refetch } = useGetAllReceivedMessage();
 
-  const filteredMessages2: Message[] = [
-    {
-      id: '1',
-      title: 'Message 1',
-      content: 'Contenu du message 1',
-      writtenBy: 'truc@gmail.com',
-      writtenTo: 'plop@gmail.com',
-      hasBeenRead: false,
-      sentAt: new Date(),
-    },
-    {
-      id: '2',
-      title: 'Message 2',
-      content: 'Contenu du message 2',
-      writtenBy: 'truc@gmail.com',
-      writtenTo: 'plop@gmail.com',
-      hasBeenRead: false,
-      sentAt: new Date(),
-    },
-    {
-      id: '3',
-      title: 'Message 3',
-      content: 'Contenu du message 3 lorm ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies ultricies, nisl nisl luctus nisl, nec ultricies nisl nisl eget nisl.',
-      writtenBy: 'truc@gmail.com',
-      writtenTo: 'plop@gmail.com',
-      hasBeenRead: false,
-      sentAt: new Date(),
-    },
-    {
-      id: '4',
-      title: 'Message 4',
-      content: 'Contenu du message 4',
-      writtenBy: 'truc@gmail.com',
-      writtenTo: 'plop@gmail.com',
-      hasBeenRead: true,
-      sentAt: new Date('2023-02-22T13:42:00'),
-    }
-  ]
+  const { update } = useUpdateMessageStatus();
 
   const filteredMessages = useMemo(() => {
-    const msgToFilter = messages?.length ? messages : filteredMessages2;
     if (displayOnlyUnread) {
-      return msgToFilter?.filter(message => !message.hasBeenRead);
+      return messages?.filter(message => !message.hasBeenRead);
     }
-    return msgToFilter;
+    return messages;
   }, [messages, displayOnlyUnread]);
 
-  const renderMessageItem = (message: Message) => <MessageItem key={message.id} message={message} onClick={setSelectedMessage} />;
+  const handleOnClickMessage = (message: Message) => {
+    setSelectedMessage(message);
+    update({ hasBeenRead: true, id: message.id, onSuccess: () => {
+      refetch();
+    } });
+  };
+
+  const renderMessageItem = (message: Message) => <MessageItem key={message.id} message={message} onClick={handleOnClickMessage} />;
 
   return (
     <Box border="1px solid green" w="full" h="full" display="flex">
