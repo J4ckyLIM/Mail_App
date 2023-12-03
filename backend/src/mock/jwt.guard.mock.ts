@@ -7,7 +7,6 @@ export class MockJwtAuthGuard {
   constructor(private readonly user: User) {}
 
   canActivate(context: any): boolean {
-    console.log('called');
     context.switchToHttp().getRequest().user = this.user;
     return true;
   }
