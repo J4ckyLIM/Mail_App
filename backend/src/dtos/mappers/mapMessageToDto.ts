@@ -1,5 +1,5 @@
-import { Message } from "../../domain/message/message.entity";
-import { MessageDTO } from "../message.dto";
+import { Message } from '../../domain/message/message.entity';
+import { MessageDTO } from '../message.dto';
 
 export const mapMessageToDto = (message: Message): MessageDTO => {
   return {

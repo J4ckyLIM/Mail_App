@@ -63,7 +63,7 @@ export class MessageService extends BaseService<Message> {
       where: { writtenTo: { email } },
       order: {
         createdAt: 'DESC',
-      }
+      },
     });
 
     return messagesReceived;

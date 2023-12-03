@@ -16,10 +16,14 @@ import {
 import { UUIDv4 } from 'src/types';
 
 import { Message } from '../../domain/message/message.entity';
-import { CreateMessageDTO, MessageDTO, UpdateMessageDTO } from '../../dtos/message.dto';
+import { mapMessageToDto } from '../../dtos/mappers/mapMessageToDto';
+import {
+  CreateMessageDTO,
+  MessageDTO,
+  UpdateMessageDTO,
+} from '../../dtos/message.dto';
 import { JwtAuthGuard } from '../../guard/jwt.guard';
 import { MessageService } from '../../services/message/message.service';
-import { mapMessageToDto } from '../../dtos/mappers/mapMessageToDto';
 
 @Controller('messages')
 export class MessagesController {
@@ -29,7 +33,9 @@ export class MessagesController {
   @UseGuards(JwtAuthGuard)
   @Get('/all')
   async getAllMessageForUser(@Request() req: any): Promise<MessageDTO[]> {
-    const messages = await this.messageService.findAllMessageReceivedByEmail(req.user.email);
+    const messages = await this.messageService.findAllMessageReceivedByEmail(
+      req.user.email,
+    );
     return messages.map(mapMessageToDto);
   }
 
@@ -46,12 +52,13 @@ export class MessagesController {
   @Get('/:id')
   async getMessageById(@Param('id') id: UUIDv4): Promise<Message> {
     try {
-      const message = await this.messageService.findMessageByIdAndUpdateStatus(id);
-      return message
-    }
-    catch (error) {
+      const message = await this.messageService.findMessageByIdAndUpdateStatus(
+        id,
+      );
+      return message;
+    } catch (error) {
       throw new NotFoundException(error.message);
-    } 
+    }
   }
 
   @HttpCode(HttpStatus.CREATED)

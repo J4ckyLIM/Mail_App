@@ -1,8 +1,10 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { UserService } from '../services/user/user.service';
+
 import { MessageService } from '../services/message/message.service';
-import { seedUsers } from './users/seed-users';
+import { UserService } from '../services/user/user.service';
+
 import { seedMessages } from './messages/seed-messages';
+import { seedUsers } from './users/seed-users';
 
 @Injectable()
 export class SeedService implements OnModuleInit {
@@ -23,11 +25,13 @@ export class SeedService implements OnModuleInit {
 
   private async seedUsers() {
     const usersToSeed = seedUsers;
-    await Promise.all(usersToSeed.map((user) => this.userService.create(user)));
+    await Promise.all(usersToSeed.map(user => this.userService.create(user)));
   }
 
   private async seedMessages() {
     const messagesToSeed = seedMessages;
-    await Promise.all(messagesToSeed.map((message) => this.messageService.insert(message)));
+    await Promise.all(
+      messagesToSeed.map(message => this.messageService.insert(message)),
+    );
   }
 }

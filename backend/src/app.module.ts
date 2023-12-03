@@ -17,7 +17,7 @@ import { SeedModule } from './seeds/seed.module';
     UserModule,
     MessageModule,
     AuthModule,
-    ...(process.env.NODE_ENV === 'development' ? [SeedModule] : []), 
+    ...(process.env.NODE_ENV === 'development' ? [SeedModule] : []),
   ],
   controllers: [AppController],
   providers: [AppService],
