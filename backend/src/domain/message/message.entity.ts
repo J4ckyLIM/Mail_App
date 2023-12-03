@@ -21,10 +21,10 @@ export class Message extends BaseEntity {
   @Column({ default: false })
   hasBeenRead: boolean;
 
-  @ManyToOne(() => User, user => user.messagesWritten)
+  @ManyToOne(() => User, user => user.messagesWritten, { eager: true })
   writtenBy: User;
 
-  @ManyToOne(() => User, user => user.messagesReceived)
+  @ManyToOne(() => User, user => user.messagesReceived, { eager: true })
   writtenTo: User;
 
   constructor(props: MessageCreateArgs) {

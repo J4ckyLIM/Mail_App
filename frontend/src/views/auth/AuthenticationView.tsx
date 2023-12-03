@@ -31,14 +31,14 @@ const AuthenticationView: FC = () => {
 
   return (
     <Flex height={'100vh'} width={'100%'}>
-      <VStack flex="40%" alignItems="flex-start" p="7">
+      <VStack flex="34%" alignItems="flex-start" p="7">
         <img src={LogoIcon} alt={'logo'} style={{ paddingLeft: 15 }} />
         <Flex h="full" w="full">
           <AuthenticationForm onSubmit={onSubmitHandler} />
         </Flex>
       </VStack>
       <Box
-        flex="60%"
+        flex="66%"
         backgroundImage={'url(/assets/login-background.png)'}
         backgroundSize={'cover'}
         backgroundPosition={'center'}

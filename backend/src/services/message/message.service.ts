@@ -50,6 +50,9 @@ export class MessageService extends BaseService<Message> {
   async findAllMessageWrittenByEmail(email: string): Promise<Message[]> {
     const messagesWritten = await this.messageRepository.find({
       where: { writtenBy: { email } },
+      order: {
+        createdAt: 'DESC',
+      },
     });
 
     return messagesWritten;
@@ -58,6 +61,9 @@ export class MessageService extends BaseService<Message> {
   async findAllMessageReceivedByEmail(email: string): Promise<Message[]> {
     const messagesReceived = await this.messageRepository.find({
       where: { writtenTo: { email } },
+      order: {
+        createdAt: 'DESC',
+      },
     });
 
     return messagesReceived;

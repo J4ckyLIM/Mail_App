@@ -17,22 +17,7 @@ export interface MutationRegisterArgs extends MutationLoginArgs {
 
 const uri = '/auth';
 
-// export const useGetExample = () => {
-//   const query = useQuery<any, Error>({
-//     queryKey: [uri],
-//     queryFn: async (): Promise<any> => {
-//       return fetchApi({
-//         uri: `${uri}/example`,
-//         method: methods.GET,
-//       });
-//     },
-//   });
-//   return { ...query, exampleData: query.data };
-// };
-
 export const useMutationLogin = () => {
-  const queryClient = useQueryClient();
-
   const mutation = useMutation<AuthResult, Error, MutationLoginArgs>({
     mutationFn: async ({
       email,

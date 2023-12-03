@@ -8,6 +8,7 @@ import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './modules/auth.module';
 import { MessageModule } from './modules/message.module';
 import { UserModule } from './modules/user.module';
+import { SeedModule } from './seeds/seed.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserModule } from './modules/user.module';
     UserModule,
     MessageModule,
     AuthModule,
+    ...(process.env.NODE_ENV === 'development' ? [SeedModule] : []),
   ],
   controllers: [AppController],
   providers: [AppService],
